@@ -12,12 +12,13 @@ describe('ThreadRepositoryPostgres', () => {
   afterAll(async () => {
     await pool.end();
   });
+  const mockIdGenerator = jest.fn(() => '123');
 
   describe('addThread', () => {
     it('should persist new thread and return added thread correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({ id: 'user-123' }); // Pastikan ada user untuk owner thread
-      const repository = new ThreadRepositoryPostgres(pool, {});
+      const repository = new ThreadRepositoryPostgres(pool, mockIdGenerator);
       const newThread = {
         title: 'thread title',
         body: 'thread body',
